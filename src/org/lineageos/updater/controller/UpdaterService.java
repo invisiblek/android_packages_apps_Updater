@@ -211,7 +211,7 @@ public class UpdaterService extends Service {
                 installer.cancel();
             }
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     public Controller getUpdaterController() {
