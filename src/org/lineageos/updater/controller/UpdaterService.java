@@ -203,7 +203,7 @@ public class UpdaterService extends Service {
             }
         }
         Log.d(TAG, "Service started");
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     private void installPackage(File update) {
