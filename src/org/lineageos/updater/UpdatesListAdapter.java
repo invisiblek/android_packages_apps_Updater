@@ -190,9 +190,6 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         if (update.getPersistentStatus() == UpdateStatus.Persistent.VERIFIED) {
             viewHolder.itemView.setOnLongClickListener(getLongClickListener(update, true));
             setButtonAction(viewHolder.mAction, Action.INSTALL, update.getDownloadId(), !isBusy());
-        } else if (!Utils.canInstall(update)) {
-            viewHolder.itemView.setOnLongClickListener(getLongClickListener(update, false));
-            setButtonAction(viewHolder.mAction, Action.INFO, update.getDownloadId(), !isBusy());
         } else {
             viewHolder.itemView.setOnLongClickListener(getLongClickListener(update, false));
             setButtonAction(viewHolder.mAction, Action.DOWNLOAD, update.getDownloadId(), !isBusy());
@@ -330,17 +327,10 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
                         mActivity.getString(R.string.action_description_resume));
                 button.setEnabled(enabled);
                 UpdateInfo update = mUpdaterController.getUpdate(downloadId);
-                final boolean canInstall = Utils.canInstall(update) ||
-                        update.getFile().length() == update.getFileSize();
                 clickListener = !enabled ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (canInstall) {
                             mUpdaterController.resumeDownload(downloadId);
-                        } else {
-                            mActivity.showSnackbar(R.string.snack_update_not_installable,
-                                    Snackbar.LENGTH_LONG);
-                        }
                     }
                 };
             }
@@ -351,16 +341,10 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
                         mActivity.getString(R.string.action_description_install));
                 button.setEnabled(enabled);
                 UpdateInfo update = mUpdaterController.getUpdate(downloadId);
-                final boolean canInstall = Utils.canInstall(update);
                 clickListener = !enabled ? null : new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (canInstall) {
-                            getInstallDialog(downloadId).show();
-                        } else {
-                            mActivity.showSnackbar(R.string.snack_update_not_installable,
-                                    Snackbar.LENGTH_LONG);
-                        }
+getInstallDialog(downloadId).show();
                     }
                 };
             }
