@@ -305,7 +305,6 @@ public class UpdaterService extends Service {
                 break;
             }
             case VERIFIED: {
-                stopForeground(STOP_FOREGROUND_DETACH);
                 mNotificationBuilder.setProgress(100, 100, false);
                 String text = getString(R.string.download_completed_notification);
                 mNotificationStyle.bigText(text);
