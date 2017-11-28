@@ -63,6 +63,7 @@ public class UpdaterService extends Service {
 
     private final IBinder mBinder = new LocalBinder();
     private boolean mHasClients;
+    private boolean mZipInstalled;
 
     private BroadcastReceiver mBroadcastReceiver;
     private NotificationCompat.Builder mNotificationBuilder;
@@ -396,10 +397,15 @@ public class UpdaterService extends Service {
         if (progress == 0) {
             mNotificationStyle.bigText(getString(R.string.finalizing_package));
             mNotificationBuilder.setProgress(0, 0, true);
+            mZipInstalled = true;
         } else {
             String percent = NumberFormat.getPercentInstance().format(progress / 100.f);
             mNotificationStyle.setSummaryText(percent);
-            mNotificationStyle.bigText(getString(R.string.preparing_ota_first_boot));
+            if (mZipInstalled) {
+                mNotificationStyle.bigText(getString(R.string.preparing_ota_first_boot));
+            } else {
+                mNotificationStyle.bigText(getString(R.string.installing_update));
+            }
         }
 
         mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
