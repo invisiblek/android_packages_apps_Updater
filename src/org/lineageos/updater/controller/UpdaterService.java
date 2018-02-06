@@ -220,7 +220,7 @@ public class UpdaterService extends Service {
 
     private void tryStopSelf() {
         if (!mHasClients && !mUpdaterController.hasActiveDownloads() &&
-                !mUpdaterController.isInstallingUpdate()) {
+                !mUpdaterController.isInstallingUpdate() && !mUpdaterController.isVerifyingUpdate()) {
             Log.d(TAG, "Service no longer needed, stopping");
             stopSelf();
         }
